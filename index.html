@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>启元造镜 · AI漫剧全流程作战手册：IP授权 → 制作 → 发行上架</title>
+<style>
+  :root{
+    --bg:#0d1017;--bg-soft:#121722;--card:#171d2b;--card-2:#1c2334;
+    --border:#252d40;--border-soft:#1f2737;
+    --text:#e8edf6;--muted:#9aa5b8;--faint:#6b7588;
+    --accent:#5b8cff;--accent-2:#8b5bff;--gold:#f5b544;--green:#3ecf8e;
+    --red:#ff6b6b;--cyan:#45d3e0;--orange:#ff944d;--teal:#38c6b4;--pink:#ff6ea8;
+    --radius:16px;--shadow:0 10px 30px rgba(0,0,0,.35);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;line-height:1.72;-webkit-font-smoothing:antialiased}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{text-decoration:underline}
+
+  nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:12px 28px;background:rgba(13,16,23,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+  nav .logo{font-weight:800;font-size:14px;letter-spacing:.5px;margin-right:10px;white-space:nowrap}
+  nav .logo span{background:linear-gradient(90deg,var(--accent),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent}
+  nav a.link{color:var(--muted);font-size:12.5px;padding:5px 10px;border-radius:8px;transition:.15s;white-space:nowrap}
+  nav a.link:hover{color:var(--text);background:var(--card);text-decoration:none}
+
+  header.hero{padding:58px 28px 48px;text-align:center;position:relative;overflow:hidden;background:radial-gradient(900px 420px at 15% -10%,rgba(91,140,255,.22),transparent 60%),radial-gradient(800px 400px at 85% 0%,rgba(255,110,168,.18),transparent 60%),radial-gradient(700px 380px at 50% 120%,rgba(62,207,142,.12),transparent 60%)}
+  header.hero .tag{display:inline-block;font-size:12px;color:var(--cyan);border:1px solid rgba(69,211,224,.35);background:rgba(69,211,224,.08);padding:4px 14px;border-radius:99px;margin-bottom:16px;letter-spacing:1px}
+  header.hero .studio{display:inline-block;font-size:13px;color:var(--gold);border:1px solid rgba(245,181,68,.35);background:rgba(245,181,68,.08);padding:5px 16px;border-radius:99px;margin-bottom:16px;font-weight:600}
+  header.hero h1{font-size:clamp(24px,4.4vw,44px);font-weight:900;line-height:1.28;letter-spacing:1px;margin:0 auto 14px;max-width:920px}
+  header.hero h1 .grad{background:linear-gradient(92deg,#5b8cff 0%,#8b5bff 45%,#ff6ea8 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  header.hero p.sub{color:var(--muted);font-size:15.5px;max-width:800px;margin:0 auto 26px}
+  .hero-stats{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+  .hero-stats .stat{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:13px 20px;min-width:120px;text-align:center}
+  .hero-stats .stat b{display:block;font-size:21px;font-weight:800}
+  .hero-stats .stat b.c{color:var(--cyan)}.hero-stats .stat b.g{color:var(--green)}.hero-stats .stat b.o{color:var(--orange)}.hero-stats .stat b.p{color:var(--pink)}
+  .hero-stats .stat small{color:var(--faint);font-size:11px}
+
+  .wrap{max-width:1100px;margin:0 auto;padding:0 28px}
+  section{padding:56px 0;border-bottom:1px solid var(--border-soft)}
+  section:last-of-type{border-bottom:none}
+  .kicker{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:10px}
+  h2{font-size:clamp(22px,3vw,30px);font-weight:800;letter-spacing:.5px;margin-bottom:8px}
+  h2 .num{color:var(--faint);font-weight:700;margin-right:8px}
+  .lead{color:var(--muted);font-size:15px;max-width:800px;margin-bottom:30px}
+  h3{font-size:18.5px;font-weight:700;margin:34px 0 14px}
+  h4{font-size:16px;font-weight:700}
+
+  .callout{border-radius:var(--radius);padding:18px 20px;margin:20px 0;border:1px solid var(--border);background:var(--card);display:flex;gap:14px;align-items:flex-start}
+  .callout .ico{font-size:22px;line-height:1.4;flex-shrink:0}
+  .callout b{display:block;margin-bottom:4px}
+  .callout p{color:var(--muted);font-size:14px}
+  .callout.warn{border-color:rgba(245,181,68,.4);background:rgba(245,181,68,.07)}.callout.warn b{color:var(--gold)}
+  .callout.danger{border-color:rgba(255,107,107,.4);background:rgba(255,107,107,.07)}.callout.danger b{color:var(--red)}
+  .callout.info{border-color:rgba(91,140,255,.4);background:rgba(91,140,255,.07)}.callout.info b{color:var(--accent)}
+  .callout.ok{border-color:rgba(62,207,142,.4);background:rgba(62,207,142,.07)}.callout.ok b{color:var(--green)}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:18px;margin-top:8px}
+  .pcard{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:22px;position:relative;overflow:hidden;transition:transform .18s,border-color .18s}
+  .pcard:hover{transform:translateY(-3px);border-color:#33405a}
+  .pcard .bar{position:absolute;top:0;left:0;right:0;height:4px}
+  .pcard .head{display:flex;align-items:center;gap:13px;margin-bottom:6px}
+  .pcard .logo-badge{width:46px;height:46px;border-radius:12px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;color:#fff}
+  .pcard h4{font-size:17px;font-weight:800}
+  .pcard .owner{font-size:12px;color:var(--faint)}
+  .pcard .big{font-size:14px;color:var(--text);font-weight:600;margin-top:13px}
+  .pcard .big b{font-size:25px;display:inline;color:var(--accent);font-weight:900}
+  .pcard .row{display:flex;gap:8px;align-items:baseline;margin-top:8px;font-size:13.5px;color:var(--muted)}
+  .pcard .row .k{color:var(--faint);flex-shrink:0;min-width:64px}
+  .pcard .row .k2{color:var(--faint);flex-shrink:0}
+  .pcard .kv{color:var(--text)}
+  .pcard .entry{display:block;margin-top:15px;padding:9px 14px;border-radius:10px;font-size:13px;text-align:center;font-weight:600;background:var(--card-2);border:1px solid var(--border);color:var(--text);transition:.15s}
+  .pcard .entry:hover{text-decoration:none;border-color:var(--accent);color:var(--accent)}
+  .pcard .entry.primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#fff;border:none}
+  .pcard .entry.primary:hover{color:#fff;filter:brightness(1.1)}
+
+  .table-scroll{overflow-x:auto;margin:16px 0;border-radius:var(--radius);border:1px solid var(--border)}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:620px}
+  thead th{background:var(--card-2);text-align:left;padding:11px 14px;font-weight:700;color:var(--text);border-bottom:1px solid var(--border);white-space:nowrap}
+  tbody td{padding:10px 14px;border-bottom:1px solid var(--border-soft);color:var(--muted);vertical-align:top}
+  tbody tr:last-child td{border-bottom:none}
+  tbody td:first-child{color:var(--text);font-weight:600;white-space:nowrap}
+  tbody tr:hover td{background:rgba(91,140,255,.04)}
+  .pill{display:inline-block;padding:2px 9px;border-radius:99px;font-size:11.5px;font-weight:700;white-space:nowrap}
+  .pill.red{background:rgba(255,107,107,.15);color:#ff8585}.pill.green{background:rgba(62,207,142,.15);color:#5adba4}
+  .pill.blue{background:rgba(91,140,255,.15);color:#7ba7ff}.pill.orange{background:rgba(255,148,77,.15);color:#ffa56a}
+  .pill.teal{background:rgba(56,198,180,.15);color:#5fd8c6}.pill.pink{background:rgba(255,110,168,.15);color:#ff86bc}
+  .pill.purple{background:rgba(139,91,255,.15);color:#a98cff}.pill.gold{background:rgba(245,181,68,.15);color:#f7c366}
+
+  .flow{display:flex;align-items:stretch;flex-wrap:wrap;margin:26px 0}
+  .flow .step{flex:1;min-width:130px;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:15px 12px;text-align:center;position:relative}
+  .flow .step .n{width:30px;height:30px;border-radius:50%;margin:0 auto 9px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;color:#fff}
+  .flow .step b{display:block;font-size:13.5px;margin-bottom:3px}
+  .flow .step span{font-size:11.5px;color:var(--muted);line-height:1.5}
+  .flow .arrow{align-self:center;color:var(--faint);font-size:20px;padding:0 7px;flex-shrink:0}
+
+  .role-chain{display:flex;flex-direction:column;gap:10px;margin:22px 0}
+  .role-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .role-row .lbl{min-width:120px;font-size:13px;font-weight:700;color:var(--faint)}
+  .role-row .chips{display:flex;gap:8px;flex-wrap:wrap;flex:1}
+  .role-row .chip{padding:7px 13px;border-radius:10px;font-size:12.5px;font-weight:600;border:1px solid var(--border);background:var(--card)}
+  .role-row .chip.me{border-color:var(--accent);background:rgba(91,140,255,.12);color:var(--accent)}
+
+  .check{list-style:none}
+  .check li{padding:6px 0 6px 30px;position:relative;color:var(--muted);font-size:14px}
+  .check li::before{content:"✔";position:absolute;left:2px;color:var(--green);font-weight:700}
+  .cross li::before{content:"✘";color:var(--red)}
+
+  .srcs{font-size:12.5px;color:var(--faint);line-height:1.9}
+  .srcs li{margin-left:18px;margin-bottom:3px}
+  footer{padding:30px 28px 50px;text-align:center;color:var(--faint);font-size:12.5px}
+  .disclaimer{max-width:880px;margin:0 auto;padding:18px 22px;border-radius:12px;background:var(--card);border:1px solid var(--border);font-size:12.5px;color:var(--muted);text-align:left}
+  .toc{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+  .toc a{padding:10px 16px;border-radius:12px;background:var(--card);border:1px solid var(--border);color:var(--text);font-size:13.5px;font-weight:600;transition:.15s}
+  .toc a:hover{text-decoration:none;border-color:var(--accent);color:var(--accent)}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">启元造镜<span>· AI漫剧作战手册</span></div>
+  <a class="link" href="#roles">产业链·你能做什么</a>
+  <a class="link" href="#ip">①IP授权</a>
+  <a class="link" href="#making">②制作流程</a>
+  <a class="link" href="#publish">③上架发行</a>
+  <a class="link" href="#compliance">④资质合规</a>
+  <a class="link" href="#route">⑤行动路线</a>
+  <a class="link" href="#sources">数据来源</a>
+</nav>
+
+<header class="hero">
+  <div class="tag">2026 全流程实操手册 · 信息截至 2026年8月</div>
+  <div class="studio">🏛️ 启元造镜文化传媒工作室 · 个体工商户 · 4人团队</div>
+  <h1>AI 漫剧，从 <span class="grad">拿 IP → 做成品 → 上架发行</span> 一条龙</h1>
+  <p class="sub">你关心的 5 个问题全部回答：①小说版权/授权怎么拿？②AI漫剧怎么做（规范流程+工具）？③成品自己上架还是需要出品方？④如果要出品方/发行方，怎么找？⑤个体工商户工作室能不能做、要不要办证？</p>
+  <div class="hero-stats">
+    <div class="stat"><b class="c">6万+</b><small>番茄开放网文IP</small></div>
+    <div class="stat"><b class="g">10万+</b><small>阅文开放改编IP</small></div>
+    <div class="stat"><b class="o">90%</b><small>抖音给版权方最高分成</small></div>
+    <div class="stat"><b class="p">2.88倍</b><small>火龙漫剧最高分账系数</small></div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<!-- ============ 产业链角色 ============ -->
+<section id="roles">
+  <div class="kicker">First · 先搞懂你在哪一环</div>
+  <h2><span class="num">00</span>产业链角色：你的工作室「能做什么」</h2>
+  <p class="lead">短剧/漫剧产业链分三层：<b>上游 IP（版权方）→ 中游制作（承制方）+ 发行 → 下游平台（分发）</b>。先看清楚自己站在哪里，才知道要不要找「出品方」。</p>
+
+  <div class="role-chain">
+    <div class="role-row">
+      <div class="lbl">上游 · IP方</div>
+      <div class="chips"><span class="chip">番茄小说</span><span class="chip">七猫</span><span class="chip">书旗</span><span class="chip">阅文/起点</span></div>
+    </div>
+    <div class="role-row">
+      <div class="lbl">中游 · 制作/发行</div>
+      <div class="chips"><span class="chip me">👈 启元造镜（承制方+版权方）</span><span class="chip">发行方</span><span class="chip">投资出品方</span><span class="chip">分销商</span></div>
+    </div>
+    <div class="role-row">
+      <div class="lbl">下游 · 平台</div>
+      <div class="chips"><span class="chip">抖音</span><span class="chip">红果短剧/免费漫剧</span><span class="chip">火龙漫剧</span><span class="chip">河马剧场</span></div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="pcard">
+      <div class="bar" style="background:linear-gradient(90deg,#5b8cff,#8b5bff)"></div>
+      <h4>✅ 你的工作室能做这 3 件事</h4>
+      <ul class="check">
+        <li><b>当「版权方」</b>：拿 IP → 自制成品 → 上传平台分账（这是主线）</li>
+        <li><b>当「承制方」</b>：接平台的「定制剧/承制」单，拿保底制作费</li>
+        <li><b>当「编剧/导演」</b>：先卖剧本、赚保底，不用自己承担制作风险</li>
+      </ul>
+    </div>
+    <div class="pcard">
+      <div class="bar" style="background:linear-gradient(90deg,#f5b544,#ff6b6b)"></div>
+      <h4>⚠️ 现阶段你做不了 / 需绕道的事</h4>
+      <ul class="check cross">
+        <li><b>付费短剧（IAP）自己投流</b>：需《广播电视节目制作经营许可证》等资质，个体工商户难办</li>
+        <li><b>「投资出品方」身份</b>：目前只对机构开放，且仅限真人短剧、暂不支持漫剧</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout ok">
+    <div class="ico">🎯</div>
+    <div>
+      <b>一句话结论：做 AI 漫剧，你不需要「出品方」就能自己上架</b>
+      <p>AI 漫剧走的是<b>免费分账（IAA 广告变现）</b>路线，个人/个体工商户以<b>「版权方」</b>身份入驻即可直接上传成品、参与分账——<b>平台本身就是你的发行方</b>。「出品方」只在你做<b>付费剧投流</b>或<b>接平台定制单</b>时才出现。详见 <a href="#publish">第③章「上架发行」</a>。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ IP 授权 ============ -->
+<section id="ip">
+  <div class="kicker">Step 1 · IP Licensing</div>
+  <h2><span class="num">①</span>拿小说「版权/授权」的正确姿势</h2>
+  <p class="lead">所谓「免费 IP 授权」，本质是<b>平台开放书库给你改编、不收前期授权费，改为「分成 / 保底+分成」共享收益</b>。必须走官方入口签约拿书面授权，否则擅自改编 = 侵权（已有公司擅改七猫小说被判赔 60 余万元）。</p>
+
+  <div class="callout danger">
+    <div class="ico">⚠️</div>
+    <div><b>红线：千万别「看中哪本书就直接做」</b><p>网文 IP 版权归属清晰，个人/工作室必须通过平台官方「漫剧/短剧合作」入口提交资质、签约、拿授权书后才能改编。擅自改编会面临下架、封禁和高额赔偿。</p></div>
+  </div>
+
+  <div class="grid">
+    <div class="pcard">
+      <div class="bar" style="background:linear-gradient(90deg,#ff6b4a,#ff944d)"></div>
+      <div class="head"><div class="logo-badge" style="background:linear-gradient(135deg,#ff6b4a,#ff944d)">番</div><div><h4>番茄小说</h4><div class="owner">字节跳动 · 抖音集团</div></div></div>
+      <div class="big">开放 <b>6万+</b> 部网文 IP</div>
+      <div class="row"><span class="k">IP范围</span><span class="kv">长篇+短篇，35+ 品类</span></div>
+      <div class="row"><span class="k">收益</span><span class="kv">全渠道净收益 <b style="color:var(--orange)">90%</b> 分给版权方</span></div>
+      <div class="row"><span class="k">扶持</span><span class="kv">版权中心补贴 IP 改编费作生产扶持金</span></div>
+      <div class="row"><span class="k">⚠️限制</span><span class="kv">番茄IP不可用于 AIGC推书视频/PPT解说</span></div>
+      <a class="entry primary" href="https://creator.shortdramas.com" target="_blank">入口：短剧创作者中心 → 版权方入驻</a>
+    </div>
+    <div class="pcard">
+      <div class="bar" style="background:linear-gradient(90deg,#ffb020,#ff7a00)"></div>
+      <div class="head"><div class="logo-badge" style="background:linear-gradient(135deg,#ffb020,#ff7a00)">猫</div><div><h4>七猫</h4><div class="owner">七猫中文网</div></div></div>
+      <div class="big">「改编书单」定向征稿 · <b>零授权费</b></div>
+      <div class="row"><span class="k">入口</span><span class="kv">作者专区「剧本」→ 改编书单</span></div>
+      <div class="row"><span class="k">保底</span><span class="kv">短篇 <b>1.5–5万</b>/本；中长篇 <b>3–10万</b>/本</span></div>
+      <div class="row"><span class="k">绿色通道</span><span class="kv">10集过稿解锁 S级IP优先改编权</span></div>
+      <div class="row"><span class="k">漫剧合作</span><span class="kv">王女士 wangYF_1020（微信）</span></div>
+      <a class="entry" href="https://zuozhe.qimao.com/front/screenplay/adapt-book-list" target="_blank">入口：七猫改编书单</a>
+    </div>
+    <div class="pcard">
+      <div class="bar" style="background:linear-gradient(90deg,#3b7cff,#38c6b4)"></div>
+      <div class="head"><div class="logo-badge" style="background:linear-gradient(135deg,#3b7cff,#38c6b4)">旗</div><div><h4>书旗</h4><div class="owner">阿里巴巴 · 书旗中文网</div></div></div>
+      <div class="big">「漫剧启航计划」<b>5万+</b> IP</div>
+      <div class="row"><span class="k">资金</span><span class="kv">5000万级 · 万部精品授权</span></div>
+      <div class="row"><span class="k">成品买断</span><span class="kv">最高 <b style="color:var(--cyan)">25万</b>/部</span></div>
+      <div class="row"><span class="k">分成</span><span class="kv">最高 <b style="color:var(--cyan)">20%</b> + 爆款叠加5万</span></div>
+      <div class="row"><span class="k">剧本合作</span><span class="kv">买断最高5万 + 分成10%</span></div>
+      <a class="entry" href="https://www.shuqi.com/comic/rule" target="_blank">入口：书旗漫剧启航计划</a>
+    </div>
+    <div class="pcard">
+      <div class="bar" style="background:linear-gradient(90deg,#8b5bff,#ff6ea8)"></div>
+      <div class="head"><div class="logo-badge" style="background:linear-gradient(135deg,#8b5bff,#ff6ea8)">阅</div><div><h4>阅文集团</h4><div class="owner">QQ阅读 · 起点中文网</div></div></div>
+      <div class="big">「起点剧场」开放 <b>10万+</b> 部 IP</div>
+      <div class="row"><span class="k">形态</span><span class="kv">短剧 + 漫剧两大形态</span></div>
+      <div class="row"><span class="k">三重激励</span><span class="kv">保底 + 永久分账 + 周期榜单</span></div>
+      <div class="row"><span class="k">入驻</span><span class="kv">搜「阅文漫剧合作平台」申请</span></div>
+      <div class="row"><span class="k">漫剧合作</span><span class="kv">王女士 manju@yuewen.com</span></div>
+      <a class="entry" href="https://www.yuewen.com/contact" target="_blank">入口：阅文官方合作通道</a>
+    </div>
+  </div>
+
+  <div class="callout warn">
+    <div class="ico">💡</div>
+    <div>
+      <b>启元造镜（4人工作室）怎么选？</b>
+      <p>你们<b>既有制作能力、又能出成品</b>，最优路径是走 <b>番茄（短剧创作者中心·版权方）</b> + <b>书旗（成品买断25万/分成20%）</b>，直接交成品换收益。如果前期想先验证题材、降低风险，可以先走 <b>七猫/番茄的编剧身份</b> 卖剧本拿保底（1.5–10万）。阅文（起点）偏精品付费向，适合做出第一部爆款后再去谈。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 制作流程 ============ -->
+<section id="making">
+  <div class="kicker">Step 2 · Production</div>
+  <h2><span class="num">②</span>AI 漫剧制作 · 规范流程 + 工具清单</h2>
+  <p class="lead">AI 把传统「几个月/数人团队」的制作压缩到「几天/一人一台电脑」。规范流程是 5 大环节，<b>AI 负责 60% 以上工序，人工负责把关质量与统一性</b>。</p>
+
+  <div class="flow">
+    <div class="step"><div class="n">1</div><b>剧本改编</b><span>网文→漫剧剧本（爽点前置、黄金三秒）</span></div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="n">2</div><b>分镜脚本</b><span>逐句拆镜、人物设定、画风统一</span></div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="n">3</div><b>生图/关键帧</b><span>人物三视图 + 场景 + 关键帧</span></div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="n">4</div><b>视频生成</b><span>图生视频、运镜、动态效果</span></div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="n">5</div><b>配音+剪辑</b><span>配音配乐、字幕、片头片尾、导出</span></div>
+  </div>
+
+  <h3>各环节推荐工具</h3>
+  <div class="table-scroll">
+    <table>
+      <thead><tr><th>环节</th><th>做什么</th><th>推荐工具</th></tr></thead>
+      <tbody>
+        <tr><td>1. 剧本改编</td><td>网文拆解 → 漫剧剧本，突出「黄金三秒+密集爽点」</td><td>ChatGPT / DeepSeek / 豆包 / Gemini / 阿里云百炼全妙</td></tr>
+        <tr><td>2. 分镜脚本</td><td>逐句对齐的分镜表（分镜号/时长/场景/人物/视角/画面描述）</td><td>同上（用「导演+分镜师」提示词模板）</td></tr>
+        <tr><td>3. 生图/关键帧</td><td>人物形象、三视图、场景、关键帧（保持人物一致性）</td><td>即梦 / Midjourney / Liblib / ComfyUI / 阿里Wan2.7-Image</td></tr>
+        <tr><td>4. 视频生成</td><td>图生视频、运镜、动态（分镜描述+关键帧 → 片段）</td><td>即梦 / 可灵 / Vidu / Seedance / Wan2.2</td></tr>
+        <tr><td>5. 配音配乐</td><td>角色配音 + BGM + 音效（音画同步）</td><td>Index-TTS / 剪映 / 各种AI配音工具</td></tr>
+        <tr><td>6. 剪辑合成</td><td>拼接、字幕、片头片尾、节奏优化、导出</td><td>剪映 / PR</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout info">
+    <div class="ico">🛠️</div>
+    <div>
+      <b>制作规范要点（决定能不能过审、能不能爆）</b>
+      <p>
+        ① <b>画风/人物统一</b>：AI 剧最忌讳「AI脸」模板化和人物漂移，同一角色必须用三视图锁定形象、持续复用。<br>
+        ② <b>规格达标</b>：抖音要求总时长≥120分钟、单集1–3分钟；火龙漫剧要求单集1–3分钟、总集数≥30集——<b>做之前先按最严平台规格定</b>。<br>
+        ③ <b>素材合规</b>：配音、BGM、美术素材都要有授权，<b>禁止擅用他人角色造型/服饰/道具设计、禁止盗用受著作权保护的写真/美术/影像</b>（抖音 2026 年已上线 AI 剧「预检工具」+「角色创作规范」）。<br>
+        ④ <b>AI 声明</b>：火龙漫剧等平台要求 AI 辅助创作必须如实主动声明，隐瞒会封号。
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 上架发行 ============ -->
+<section id="publish">
+  <div class="kicker">Step 3 · Distribution</div>
+  <h2><span class="num">③</span>成品上架：自己上架，还是要出品方？</h2>
+
+  <div class="callout ok">
+    <div class="ico">✅</div>
+    <div>
+      <b>核心答案：AI 漫剧，你自己（工作室）就能上架，不需要出品方</b>
+      <p>以<b>「版权方」身份</b>入驻「短剧创作者中心」（抖音/红果）或腾讯「火龙漫剧」创作平台，上传成品即可参与分账——<b>平台就是你的发行方</b>。红果免费漫剧甚至「个人创作者免资质入驻」。你只需在备案后正常上传，无需额外找「出品方」。</p>
+    </div>
+  </div>
+
+  <h3>什么情况下才需要「出品方/发行方」？</h3>
+  <div class="grid">
+    <div class="pcard">
+      <div class="bar" style="background:linear-gradient(90deg,#5b8cff,#8b5bff)"></div>
+      <h4>情形 A：想走「付费剧」变现</h4>
+      <p style="color:var(--muted);font-size:13.5px;margin-top:8px">付费短剧（小程序/投流 IAP）需要《广播电视节目制作经营许可证》等资质，个体工商户办不了。此时可<b>把成片/版权交给有资质的发行方</b>，由对方投流，你拿买断或分成。</p>
+    </div>
+    <div class="pcard">
+      <div class="bar" style="background:linear-gradient(90deg,#38c6b4,#3ecf8e)"></div>
+      <h4>情形 B：想接「平台定制/承制」单</h4>
+      <p style="color:var(--muted);font-size:13.5px;margin-top:8px">红果、番茄等平台有「定制剧/版权剧」合作——<b>平台出资，你承制</b>，拿保底制作费。这时平台本身就是「出品方」，你当承制方即可，不用自己找。</p>
+    </div>
+    <div class="pcard">
+      <div class="bar" style="background:linear-gradient(90deg,#ff944d,#ff6ea8)"></div>
+      <h4>情形 C：想做高投入精品、缺资金</h4>
+      <p style="color:var(--muted);font-size:13.5px;margin-top:8px">想做精品剧但缺资金，可以找<b>投资出品方</b>联合投资，共担风险、共享收益。对 4 人小团队，通常先靠免费分账跑起来，再考虑这一步。</p>
+    </div>
+  </div>
+
+  <h3>怎么找到「出品方 / 发行方」？（4 条路）</h3>
+  <div class="grid">
+    <div class="pcard">
+      <div class="bar" style="background:linear-gradient(90deg,#5b8cff,#8b5bff)"></div>
+      <h4>① 平台官方撮合（最靠谱）</h4>
+      <p style="color:var(--muted);font-size:13.5px;margin-top:8px">「短剧创作者中心」已上线<b>「项目撮合」功能</b>（全流程组局 + 已完成项目登记），投资出品方可在平台上找 IP、剧本、制作团队。你在平台登记作品，就有机会被出品方/发行方主动对接。</p>
+    </div>
+    <div class="pcard">
+      <div class="bar" style="background:linear-gradient(90deg,#ff6b4a,#ff944d)"></div>
+      <h4>② 直接联系平台商务</h4>
+      <p style="color:var(--muted);font-size:13.5px;margin-top:8px">书旗漫剧商务、七猫漫剧（合制&分销）、阅文漫剧合作、红果/火龙官方合作入口——直接投「作品 demo + 制作能力简介」，谈承制或版权合作。</p>
+    </div>
+    <div class="pcard">
+      <div class="bar" style="background:linear-gradient(90deg,#3b7cff,#38c6b4)"></div>
+      <h4>③ 行业对接平台/社群</h4>
+      <p style="color:var(--muted);font-size:13.5px;margin-top:8px">「扬帆出海」等平台有合作对接专栏；短剧黑马、DataEye 等社群常发「寻发行/承制/联合出品」需求。多在社群露脸，让发行方主动找你。</p>
+    </div>
+    <div class="pcard">
+      <div class="bar" style="background:linear-gradient(90deg,#8b5bff,#ff6ea8)"></div>
+      <h4>④ 头部发行/出品公司</h4>
+      <p style="color:var(--muted);font-size:13.5px;margin-top:8px">点众、九州、麦芽、天桥、山海、听花岛、花生、掌玩等头部公司既出品也发行。可投稿 demo 谈「版权剧」「引入剧」合作（分独家/非独家，结算价不同）。</p>
+    </div>
+  </div>
+
+  <h3>四大发行平台：入口 + 分成 + 规格</h3>
+  <div class="grid">
+    <div class="pcard">
+      <div class="bar" style="background:linear-gradient(90deg,#111,#45d3e0)"></div>
+      <div class="head"><div class="logo-badge" style="background:#000;border:1px solid #333">抖</div><div><h4>抖音</h4><div class="owner">字节跳动 · 漫剧主阵地</div></div></div>
+      <div class="big">最高 <b>90%</b> 分成 + S+漫剧 <b>75万</b> 保底</div>
+      <div class="row"><span class="k">入口</span><span class="kv">短剧创作者中心 + 抖音内容合作平台</span></div>
+      <div class="row"><span class="k">合作模式</span><span class="kv">①番茄IP改编分成 ②成片框架保底（月产能≥5部）③头部精品单部采买</span></div>
+      <div class="row"><span class="k">规格</span><span class="kv">总时长≥120分钟，单集1–3分钟，横竖屏均可</span></div>
+      <div class="row"><span class="k">备案</span><span class="kv">须持《网络剧片发行许可证》或备案号</span></div>
+      <a class="entry primary" href="https://content.douyin.com/account/authentication" target="_blank">入口：抖音内容合作平台</a>
+    </div>
+    <div class="pcard">
+      <div class="bar" style="background:linear-gradient(90deg,#ff2d55,#ff6b6b)"></div>
+      <div class="head"><div class="logo-badge" style="background:linear-gradient(135deg,#ff2d55,#ff6b6b)">红</div><div><h4>红果短剧 / 免费漫剧</h4><div class="owner">字节跳动 · 免费短剧</div></div></div>
+      <div class="big">独家分账系数最高 <b>200%</b></div>
+      <div class="row"><span class="k">独立APP</span><span class="kv">「红果免费漫剧」月活超 2563 万</span></div>
+      <div class="row"><span class="k">入口</span><span class="kv">短剧创作者中心（版权方）</span></div>
+      <div class="row"><span class="k">合作模式</span><span class="kv">定制剧 / 版权剧 / 引入剧（独家·非独家）</span></div>
+      <div class="row"><span class="k">注意</span><span class="kv">大部分剧本已转纯分成（约20%），优质剧本仍有保底</span></div>
+      <a class="entry" href="https://creator.shortdramas.com" target="_blank">入口：短剧创作者中心</a>
+    </div>
+    <div class="pcard">
+      <div class="bar" style="background:linear-gradient(90deg,#ff5c1a,#ff944d)"></div>
+      <div class="head"><div class="logo-badge" style="background:linear-gradient(135deg,#ff5c1a,#ff944d)">龙</div><div><h4>火龙漫剧</h4><div class="owner">腾讯视频 · 2026年2月上线</div></div></div>
+      <div class="big">综合分成系数最高 <b>2.88 倍</b></div>
+      <div class="row"><span class="k">规模</span><span class="kv">7万部 · 2万+创作者 · 日均上新1000+</span></div>
+      <div class="row"><span class="k">入口</span><span class="kv">腾讯视频创作平台 mp.v.qq.com →「火龙漫剧」</span></div>
+      <div class="row"><span class="k">分成</span><span class="kv">品类系数1.2 × 独家纯分成2.4（或保底2.0）</span></div>
+      <div class="row"><span class="k">规格</span><span class="kv">单集1–3分钟，总集数 ≥30 集</span></div>
+      <div class="row"><span class="k">要求</span><span class="kv">实名认证 + 腾讯信用分100 + 原创声明 + AI声明</span></div>
+      <a class="entry" href="https://mp.v.qq.com/" target="_blank">入口：腾讯视频创作平台</a>
+    </div>
+    <div class="pcard">
+      <div class="bar" style="background:linear-gradient(90deg,#38c6b4,#3ecf8e)"></div>
+      <div class="head"><div class="logo-badge" style="background:linear-gradient(135deg,#38c6b4,#3ecf8e)">马</div><div><h4>河马剧场</h4><div class="owner">免费短剧 · 已盈利</div></div></div>
+      <div class="big">激励系数最高 <b>8 倍</b> + 爆款叠加 25万</div>
+      <div class="row"><span class="k">规模</span><span class="kv">月活超 5000 万（2025年9月）</span></div>
+      <div class="row"><span class="k">计划</span><span class="kv">「合伙人计划」3.0</span></div>
+      <div class="row"><span class="k">收益公式</span><span class="kv">播放时长×时长单价；激励系数=稳定度×品类价值×上线时间</span></div>
+      <div class="row"><span class="k">重点</span><span class="kv">男频品类重点扶持</span></div>
+      <a class="entry" href="https://www.hipomarket.com/" target="_blank">入口：河马剧场官方</a>
+    </div>
+  </div>
+
+  <div class="callout ok">
+    <div class="ico">📈</div>
+    <div>
+      <b>多平台分发策略</b>
+      <p>一部漫剧可「非独家」同时上多平台，但<b>独家往往有更高系数</b>（红果独家200%、火龙独家纯分成2.4）。建议：<b>同 IP 做成品 → 先上抖音/红果（字节系流量最大）→ 再谈火龙、河马</b>。注意抖音要求「同一部作品不得有多个发行版本」，版权归属必须清晰。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 资质合规 ============ -->
+<section id="compliance">
+  <div class="kicker">Step 4 · Compliance</div>
+  <h2><span class="num">④</span>资质与合规：个体工商户的边界</h2>
+  <p class="lead">这是最容易被忽视、也最要命的一环。把「证」和「备案」分清楚，就能避开 90% 的坑。</p>
+
+  <div class="grid">
+    <div class="pcard">
+      <div class="bar" style="background:linear-gradient(90deg,#ff6b6b,#ff944d)"></div>
+      <h4>📜 备案（人人都要做，能做）</h4>
+      <p style="color:var(--muted);font-size:14px;margin-top:8px">广电总局 2025 年 2 月新规：所有微短剧须持<b>《网络剧片发行许可证》</b>或完成<b>上线报备登记</b>，并在片头标注号。<b>总投资 &lt;30 万的「其他微短剧」由平台审核备案</b>，个人/工作室相对友好——<b>AI 漫剧大多属于这一档，自己能搞定</b>。</p>
+      <div class="row"><span class="k">抖音备案</span><span class="kv">抖音内容合作平台 → 主体资质认证 → 创中短剧备案管理</span></div>
+    </div>
+    <div class="pcard">
+      <div class="bar" style="background:linear-gradient(90deg,#f5b544,#ff6b6b)"></div>
+      <h4>📄 三证（付费/投流才需要）</h4>
+      <p style="color:var(--muted);font-size:14px;margin-top:8px"><b>《广播电视节目制作经营许可证》《增值电信业务经营许可证》《网络文化经营许可证》</b>——这「三证」主要针对<b>付费短剧小程序 / 投放短剧广告</b>。<b>免费漫剧分账（IAA）通常不需要</b>，个体工商户/工作室以版权方身份入驻即可。</p>
+      <div class="row"><span class="k">个体工商户</span><span class="kv">广电证一般办不了 → 走免费分账，或找有资质发行方做付费</span></div>
+    </div>
+    <div class="pcard">
+      <div class="bar" style="background:linear-gradient(90deg,#5b8cff,#8b5bff)"></div>
+      <h4>🆔 入驻主体（你有优势）</h4>
+      <p style="color:var(--muted);font-size:14px;margin-top:8px">短剧创作者中心账户体系：<b>1 个账户可绑定多个主体，每个主体对应 1 个营业执照</b>。你的<b>个体工商户营业执照就是合法入驻主体</b>，比纯个人身份权限更高，可直接走「机构/版权方」认证。</p>
+      <div class="row"><span class="k">身份</span><span class="kv">以机构（个体工商户）认证版权方</span></div>
+    </div>
+    <div class="pcard">
+      <div class="bar" style="background:linear-gradient(90deg,#3ecf8e,#38c6b4)"></div>
+      <h4>🤖 AI 合规新规（2026）</h4>
+      <p style="color:var(--muted);font-size:14px;margin-top:8px">抖音已上线 AI 剧<b>「预检工具」</b>和<b>「AI剧角色创作规范」</b>：禁止擅用他人独创性角色造型/服饰/道具，禁止盗用受著作权保护的写真/美术/影像。火龙漫剧要求 AI 辅助创作<b>如实声明</b>。</p>
+      <div class="row"><span class="k">红线</span><span class="kv">涉暴/涉黄/虚假宣传/低质AI内容会被专项治理下架</span></div>
+    </div>
+  </div>
+
+  <div class="callout danger">
+    <div class="ico">⚖️</div>
+    <div><b>两条红线再强调</b><p>① <b>版权</b>：没拿授权就改编 = 侵权，已有公司擅改七猫小说被判赔 60 余万；② <b>备案</b>：没备案号/许可证号、片头没标注，一律不能上线传播。</p></div>
+  </div>
+</section>
+
+<!-- ============ 行动路线 ============ -->
+<section id="route">
+  <div class="kicker">Step 5 · Roadmap</div>
+  <h2><span class="num">⑤</span>启元造镜 · 建议行动路线图</h2>
+  <p class="lead">按你们「4 人个体工商户工作室」的实际情况，推荐的落地顺序：</p>
+
+  <div class="flow">
+    <div class="step"><div class="n">1</div><b>办基础账号</b><span>用营业执照注册「短剧创作者中心」机构认证（版权方）</span></div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="n">2</div><b>选 IP 签约</b><span>番茄/书旗书库挑爆款品类 IP，签改编授权</span></div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="n">3</div><b>AI 制作</b><span>按最严规格：单集1–3分钟、≥30集、人物统一</span></div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="n">4</div><b>备案</b><span>&lt;30万档 → 抖音内容合作平台备案</span></div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="n">5</div><b>上架分发</b><span>先抖音/红果，再谈火龙、河马（版权方身份自营）</span></div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="n">6</div><b>复盘迭代</b><span>看分账数据，做 IP 系列化，接定制单</span></div>
+  </div>
+
+  <div class="callout warn">
+    <div class="ico">🎯</div>
+    <div>
+      <b>给 4 人团队的 3 条落地建议</b>
+      <p>
+        1️⃣ <b>分工</b>：剧本×1、分镜/生图×1、视频生成×1、配音/剪辑/运营×1——正好覆盖 5 大环节。<br>
+        2️⃣ <b>题材卡位</b>：抖音偏男频（都市高武/玄幻脑洞/悬疑/末世），火龙扶 AI仿真人悬疑/科幻、3D 爱情/游戏衍生，河马重点扶男频。选对赛道天然多拿分成。<br>
+        3️⃣ <b>先跑量、再谈保底</b>：月产能 ≥5 部才能进抖音「成片框架保底」，火龙要求单部 ≥30 集。先把产能提上来，用第一部作品验证，再谈保底/定制。
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 联系 + 来源 ============ -->
+<section id="sources">
+  <div class="kicker">Appendix</div>
+  <h2><span class="num">⑥</span>官方联系渠道速查 & 数据来源</h2>
+
+  <h3>商务直连（按需联系）</h3>
+  <div class="table-scroll">
+    <table>
+      <thead><tr><th>平台</th><th>合作类型</th><th>联系人 / 邮箱</th></tr></thead>
+      <tbody>
+        <tr><td>书旗</td><td>漫剧合作</td><td>孙女士 sunjing.jiuye@alibaba-inc.com</td></tr>
+        <tr><td>书旗</td><td>IP及衍生授权（短剧/动态漫）</td><td>于女士 yuki.yhh@alibaba-inc.com</td></tr>
+        <tr><td>七猫</td><td>漫剧（合制&分销）</td><td>王女士 wangYF_1020（微信）/ wangyufeng@qimao.com</td></tr>
+        <tr><td>七猫</td><td>短剧版权合作</td><td>梁先生 liangkai@qimao.com</td></tr>
+        <tr><td>阅文</td><td>漫剧合作</td><td>王女士 manju@yuewen.com</td></tr>
+        <tr><td>阅文</td><td>影视/短剧改编授权</td><td>项先生 xiangtongqiu@yuewen.com</td></tr>
+        <tr><td>抖音/红果</td><td>短剧创作者中心</td><td>creator.shortdramas.com（在线入驻）</td></tr>
+        <tr><td>腾讯·火龙漫剧</td><td>创作平台入驻</td><td>mp.v.qq.com（在线入驻）</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>数据来源（主要）</h3>
+  <ul class="srcs">
+    <li>流媒体网《抖音最新漫剧政策：给IP、签框架协议、给90%的分成》（2025-08-18）</li>
+    <li>流媒体网《抖音漫剧新政：0成本、75万保底，3万/min，搞季播》</li>
+    <li>书旗中文网《漫剧启航计划》官方规则页（shuqi.com/comic/rule）</li>
+    <li>AITOP100《书旗中文网漫剧启航计划》（2025-12-10）</li>
+    <li>七猫中文网「联系我们」「剧本创作功能上线」公告（qimao.com / zuozhe.qimao.com）</li>
+    <li>阅文集团官网「联系我们」、界面新闻/36氪《起点剧场，阅文的新起点》（2026-07）</li>
+    <li>骨朵传媒《腾讯火龙漫剧2026新政详解+个人入驻全流程》（2026-06-30）</li>
+    <li>腾讯新闻《从流量补贴到生态共建，河马剧场合伙人计划进化史》（2025-12-17）</li>
+    <li>知乎《河马剧场合伙人计划再升级》（合伙人计划3.0规则）</li>
+    <li>上游新闻/腾讯新闻《短剧创作者中心平台上线》（2026-04）</li>
+    <li>澎湃新闻《抖音上线预检工具，AI剧创作前可以先照一照镜子》（2026-08）</li>
+    <li>知乎《抖音集团短剧版权中心（番茄+抖音）入驻教程》、财经天下《红果短剧，捏住了制作方的命脉》</li>
+    <li>国家广播电视总局《关于进一步统筹发展和安全促进网络微短剧行业健康繁荣发展的通知》（2025-02-05）</li>
+    <li>知乎《一文揭秘AI漫剧制作全流程（附超全工具清单）》；Aigc实验室《保姆级AI漫剧制作全流程》</li>
+  </ul>
+</section>
+
+</div>
+
+<footer>
+  <div class="disclaimer">
+    ⚠️ <b>重要免责声明：</b>本手册所有政策、分成比例、保底金额、入口链接均整理自公开报道与平台官方页面，<b>信息截至 2026 年 8 月</b>。短剧/漫剧行业政策更新极快（红果、抖音、火龙漫剧的分成系数在 2025–2026 年间已多次调整），且「备案、三证、入驻主体」的具体要求会因平台、地区和合作模式而异。本文仅作信息整理与参考，<b>不构成商业、投资或法律建议</b>；正式合作前请务必通过官方渠道核实并索取书面协议。
+  </div>
+</footer>
+
+</body>
+</html>
